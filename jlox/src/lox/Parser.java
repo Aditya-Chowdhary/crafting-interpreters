@@ -152,6 +152,7 @@ class Parser {
         return new ParseError();
     }
 
+    @SuppressWarnings("incomplete-switch")
     private void synchronize() {
         advance();
 

@@ -1,9 +1,17 @@
 package lox;
 
+import lox.Expr.Variable;
+
 class AstPrinter implements Expr.Visitor<String> {
     String print(Expr expr) {
         return expr.accept(this);
     }
+
+    @Override
+    public String visitVariableExpr(Variable expr) {
+        return expr.toString();
+    }
+    
 
     @Override
     public String visitBinaryExpr(Expr.Binary expr) {

@@ -30,7 +30,8 @@ class Parser {
 
     private Stmt declaration() {
         try {
-            if (match(VAR)) return varDeclaration();
+            if (match(VAR))
+                return varDeclaration();
 
             return statement();
         } catch (ParseError error) {
@@ -40,7 +41,8 @@ class Parser {
     }
 
     private Stmt statement() {
-        if (match(PRINT)) return printStatement();
+        if (match(PRINT))
+            return printStatement();
 
         return expressionStatement();
     }

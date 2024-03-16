@@ -1,5 +1,6 @@
 package lox;
 
+import lox.Expr.Assign;
 import lox.Expr.Variable;
 
 class AstPrinter implements Expr.Visitor<String> {
@@ -12,6 +13,10 @@ class AstPrinter implements Expr.Visitor<String> {
         return expr.toString();
     }
     
+    @Override
+    public String visitAssignExpr(Assign expr) {
+        return expr.toString();
+    }
 
     @Override
     public String visitBinaryExpr(Expr.Binary expr) {

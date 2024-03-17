@@ -1,6 +1,7 @@
 package lox;
 
 import lox.Expr.Assign;
+import lox.Expr.Logical;
 import lox.Expr.Variable;
 
 class AstPrinter implements Expr.Visitor<String> {
@@ -12,7 +13,7 @@ class AstPrinter implements Expr.Visitor<String> {
     public String visitVariableExpr(Variable expr) {
         return expr.toString();
     }
-    
+
     @Override
     public String visitAssignExpr(Assign expr) {
         return expr.toString();
@@ -33,6 +34,17 @@ class AstPrinter implements Expr.Visitor<String> {
         if (expr.value == null)
             return "nil";
         return expr.value.toString();
+    }
+
+    @Override
+    public String visitLogicalExpr(Logical expr) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(expr.left);
+        builder.append(expr.operator);
+        builder.append(expr.right);
+
+        return builder.toString();
     }
 
     @Override

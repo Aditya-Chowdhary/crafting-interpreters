@@ -21,6 +21,21 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         return expr.value;
     }
 
+    @Override
+    public Object visitLogicalExpr(Expr.Logical expr) {
+        Object left = evaluate(expr.left);
+
+        if (expr.operator.type == TokenType.OR) {
+            if (isTruthy(left))
+                return left;
+        } else {
+            if (!isTruthy(left))
+                return left;
+        }
+
+        return evaluate(expr.right);
+    }
+
     @SuppressWarnings("incomplete-switch")
     @Override
     public Object visitUnaryExpr(Expr.Unary expr) {
@@ -73,12 +88,13 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     private String stringify(Object object) {
-        if (object == null) return "nil";
+        if (object == null)
+            return "nil";
 
         if (object instanceof Double) {
             String text = object.toString();
             if (text.endsWith(".0")) {
-                text = text.substring(0, text.length()-2);
+                text = text.substring(0, text.length() - 2);
             }
             return text;
         }
@@ -140,6 +156,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         System.out.println(stringify(value));
         return null;
     }
+
     @Override
     public Void visitVarStmt(Stmt.Var stmt) {
         Object value = null;
@@ -195,7 +212,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             case SLASH:
                 checkNumberOperands(expr.operator, left, right);
                 return (double) left / (double) right;
-                case STAR:
+            case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (double) left * (double) right;
         }
